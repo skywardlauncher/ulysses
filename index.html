@@ -804,14 +804,36 @@ function AddChunk() {
 	$("#Message").animate({top: "1180%"}); 
 	$("#Ulysses").animate({top: "1166%"}); 
 	$("#Message").animate({top: "1185%"}); 
-	}, 2000); 
+	}, 13000); 
 	setTimeout(function(){
 	$("#Ulysses").fadeOut(1000); 
 	$("#Message").fadeOut(1000); 
-	}, 6000);
-	window.scrollBy(0,5000);  
-	setTimeout(NewPlayerTurn, 8000); 
-
+	}, 18000);
+	$("#ChunkOne").fadeIn(1000); 
+	$("#ChunkTwo").fadeIn(1000); 
+	$("#ChunkThree").fadeIn(1000); 
+	$("#ChunkFour").fadeIn(1000); 
+	$("#ChunkFive").fadeIn(1000); 
+	$("#ChunkSix").fadeIn(1000); 
+	$("#ChunkSeven").fadeIn(1000); 
+	$("#ChunkEight").fadeIn(1000); 
+	$("#ChunkNine").fadeIn(1000); 
+	$("#ChunkTen").fadeIn(1000); 
+	$("#ChunkEleven").fadeIn(1000); 
+	$("#ChunkTwelve").fadeIn(1000); 
+	setTimeout(function(){window.scrollBy(0,720);},1000);
+	setTimeout(function(){window.scrollBy(0,720);},2000);
+	setTimeout(function(){window.scrollBy(0,720);},3000);
+	setTimeout(function(){window.scrollBy(0,720);},4000);
+	setTimeout(function(){window.scrollBy(0,720);},5000);
+	setTimeout(function(){window.scrollBy(0,720);},6000);
+	setTimeout(function(){window.scrollBy(0,720);},7000);
+	setTimeout(function(){window.scrollBy(0,720);},8000);
+	setTimeout(function(){window.scrollBy(0,720);},9000);
+	setTimeout(function(){window.scrollBy(0,720);},10000);
+	setTimeout(function(){window.scrollBy(0,720);},11000);
+	setTimeout(function(){window.scrollBy(0,720);},12000);
+	setTimeout(NewPlayerTurn, 20000); 
 }
 GetPlayerOneName = localStorage.getItem("PlayerOneName");
 GetPlayerTwoName = localStorage.getItem("PlayerTwoName");
