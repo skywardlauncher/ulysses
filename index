@@ -1,0 +1,1274 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title> Ulysses </title>
+<link href="style.css" rel="stylesheet"> 
+<script src="https://threejs.org/build/three.min.js"></script>
+<script src="https://threejs.org/examples/js/libs/tween.min.js"></script>
+<script src="https://threejs.org/examples/js/libs/stats.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body onLoad="Loaded()" onkeydown="KeyDown()">
+<audio id="Audio" src="Intro.mp3" type="audio/mp3" autoplay> </audio>
+<img id="LoadingScreen" src="UlyssesGameArtwork.jpg" width="400px" height="400px" alt="error"> 
+<img id="Ulysses" src="P2WL.gif" width="400px" height="400px" alt="error">
+<img id="Info" src="PlayerSelect.png" alt="error"> 
+<img id="ChunkOne" src="ChunkOne.gif" height="400px" alt="error"> 
+<img id="ChunkTwo" src="ChunkTwo.gif" height="400px" alt="error"> 
+<img id="ChunkThree" src="ChunkThree.gif" height="400px" alt="error"> 
+<img id="ChunkFour" src="ChunkFour.gif" height="400px" alt="error"> 
+<img id="ChunkFive" src="ChunkFive.gif" height="400px" alt="error"> 
+<img id="ChunkSix" src="ChunkSix.gif" height="400px" alt="error"> 
+<img id="ChunkSeven" src="ChunkSeven.gif" height="400px" alt="error"> 
+<img id="ChunkEight" src="ChunkEight.gif" height="400px" alt="error"> 
+<img id="ChunkNine" src="ChunkNine.gif" height="400px" alt="error"> 
+<img id="ChunkTen" src="ChunkTen.gif" height="400px" alt="error"> 
+<img id="ChunkEleven" src="ChunkElleven.gif" height="400px" alt="error"> 
+<img id="ChunkTwelve" src="ChunkTwelve.gif" height="400px" alt="error"> 
+
+
+
+<div id="Message"> <p id="MC"> Welcome Idoits!... </p> </div>
+<div id="PlayerOneSelection">  
+<input type="text" id="PlayerNameOne" spellcheck="false" placeholder="Name..." maxlength="10"> 
+<button id="PlayerOneSubmit" onclick="PlayerOneSubmission()"> Submit </button>
+<img id="SelectCharacterOne" src="P1WL.gif" alt="404" width="400px" height="400px">   
+</div>
+<div id="PlayerTwoSelection"> 
+<input type="text" id="PlayerNameTwo" spellcheck="false" placeholder="Name..." maxlength="10"> 
+<button id="PlayerTwoSubmit" onclick="PlayerTwoSubmission()"> Submit </button>
+<img id="SelectCharacterTwo" src="P1WL.gif" alt="404" width="400px" height="400px">  
+</div>
+<div id="PlayerThreeSelection"> 
+<input type="text" id="PlayerNameThree" spellcheck="false" placeholder="Name..." maxlength="10"> 
+<button id="PlayerThreeSubmit" onclick="PlayerThreeSubmission()"> Submit </button>
+<img id="SelectCharacterThree" src="P1WL.gif" alt="404" width="400px" height="400px">  
+</div> 
+
+<img id="SolidBlack1" src="SolidBlack.jfif" alt="error" width="50px" height="50px">  
+<img id="SolidBlack2" src="SolidBlack.jfif" alt="error" width="50px" height="50px"> 
+
+<img id="PlayerOne" src="P1WL.gif" alt="error" width="50px" height="50px"> 
+<img id="PlayerTwo" src="P1WL.gif" alt="error" width="50px" height="50px"> 
+<img id="PlayerThree" src="P1WL.gif" alt="error" width="50px" height="50px"> 
+
+
+
+	
+<p id="LoadingText"> Loading </p>
+<p id="GameName"> Ulysses <br> v 1.000 </p>
+
+<button id="StartButton" onclick="AnimateStart()"> Start </button> 
+<button id="PlayButton" onClick="AskName()"> Play </button>
+<button id="MinigamesButton" onClick="StartMenu()"> Miningames </button>
+<button id="RewardsButton" onClick="StartMenu()"> Rewards </button>
+<button id="AchivementsButton" onClick="StartMenu()"> Achivements </button>
+<button id="SettingsButton" onClick="StartMenu()"> Settings </button>
+
+<div id="PlayerTurnBanner"> Jack's Turn </div> 
+
+<p id="TurnCounter"> 0 </p>
+
+<img id="StopCode" src="bsod.png" width="400px" height="400px" alt="eroor"> 
+
+
+	
+<script> 
+var Page = document.documentElement; 
+var Music = document.getElementById("Audio"); 
+	window.onerror = function(error) {
+	document.getElementById("StopCode").style.display = "block"; 
+	Page.style.cursor = "none"; 
+	Music.pause(); 
+	setTimeout(function(){
+		location.replace("https://skywardlauncher.github.io");
+	}, 8000); 
+	localStorage.setItem("StopCode", error); 
+	localStorage.setItem("ErrorTrue", "true"); 
+};
+  
+var LT = document.getElementById("LoadingText"); 
+var Loadedcheck = false; 
+var TurnCounter = 0;  
+
+setInterval(LoadingText, 800); 
+LoadingText();
+setInterval(NameCheck, 400); 
+function LoadingText() {
+	setTimeout(function(){LT.innerHTML = "Loading"}, 200);
+	setTimeout(function(){LT.innerHTML = "Loading."}, 400);
+	setTimeout(function(){LT.innerHTML = "Loading.."}, 600);
+	setTimeout(function(){LT.innerHTML = "Loading..."}, 800);
+}
+var AlreadyPlaying = localStorage.getItem("AlreadyPlaying"); 
+function Loaded() {
+	if (AlreadyPlaying === "true") {
+	AddChunk(); 
+	}
+
+	else {
+	$("#Info").animate({left: "10%"}); 
+	$("#Info").animate({left: "-10%"});
+	$("#Info").animate({left: "0%"});  
+	$("#PlayButton").fadeIn(1000); 
+	$("#MinigamesButton").fadeIn(1000); 
+	$("#RewardsButton").fadeIn(1000); 
+	$("#AchivementsButton").fadeIn(1000); 
+	$("#SettingsButton").fadeIn(1000); 
+
+} }
+function StartMenu() {
+    $("#StartButton").animate({top: "150%"}); 
+}
+var VaildSubOne = false; 
+var VaildSubTwo = false;
+var VaildSubThree = false;
+
+var IfCalled = true; 
+function AskName() {
+	$("#PlayButton").animate({top: "-10%"}); 
+	$("#MinigamesButton").animate({left: "110%", top: "-10%"}); 
+	$("#RewardsButton").animate({left: "100%"}); 
+	$("#AchivementsButton").animate({left: "110%", top: "110%"}); 
+	$("#SettingsButton").animate({top: "110%"}); 
+	if (IfCalled) {
+	setTimeout(StartName, 1000);
+	IfCalled = false; };  
+}
+function NameCheck() {
+NEF = document.getElementById("PlayerNameOne").value;
+NES = document.getElementById("PlayerNameTwo").value;
+NET = document.getElementById("PlayerNameThree").value; //Checks If A Name Was Entered First In Input
+	if (NEF === "") {
+		VaildSubOne = false; 
+        $("#PlayerOneSubmit").animate({opacity: "0.1"});
+		document.getElementById("PlayerOneSubmit").style.cursor = "not-allowed";
+	}
+	else {
+		VaildSubOne = true; 
+		$("#PlayerOneSubmit").animate({opacity: "1"});
+		document.getElementById("PlayerOneSubmit").style.cursor = "pointer";  
+	}
+	if (NES === "") {
+		VaildSubTwo = false; 
+        $("#PlayerTwoSubmit").animate({opacity: "0.1"});
+		document.getElementById("PlayerTwoSubmit").style.cursor = "not-allowed";
+	}
+	else {
+		VaildSubTwo = true; 
+		$("#PlayerTwoSubmit").animate({opacity: "1"});
+		document.getElementById("PlayerTwoSubmit").style.cursor = "pointer";  
+	}
+	if (NET === "") {
+		VaildSubThree = false; 
+        $("#PlayerThreeSubmit").animate({opacity: "0.1"});
+		document.getElementById("PlayerThreeSubmit").style.cursor = "not-allowed";
+	}
+	else {
+		VaildSubThree = true; 
+		$("#PlayerThreeSubmit").animate({opacity: "1"});
+		document.getElementById("PlayerThreeSubmit").style.cursor = "pointer";  
+	}
+}
+APS = true; //Aniate Player Selection
+function StartName() {
+document.getElementById("StartButton").innerHTML = "Start Game"; 
+$("#GameName").fadeOut(1000); 
+$("#Info").animate({left: "0%"}); 
+$("#PlayerOneSelection").animate({left: "25%"}); 
+$("#PlayerTwoSelection").animate({left: "50%"}); 
+$("#PlayerThreeSelection").animate({left: "75%"});
+$("#PlayerOneSelection").animate({left: "5%"}); 
+$("#PlayerTwoSelection").animate({left: "30%"}); 
+$("#PlayerThreeSelection").animate({left: "55%"});
+$("#PlayerOneSelection").animate({left: "20%"}); 
+$("#PlayerTwoSelection").animate({left: "45%"}); 
+$("#PlayerThreeSelection").animate({left: "70%"});
+$("#PlayerOneSelection").animate({left: "10%"}); 
+$("#PlayerTwoSelection").animate({left: "35%"}); 
+$("#PlayerThreeSelection").animate({left: "60%"});
+$("#PlayerOneSelection").animate({left: "15%"}); 
+$("#PlayerTwoSelection").animate({left: "40%"}); 
+$("#PlayerThreeSelection").animate({left: "65%"});
+$("#Ulysses").animate({top: "76%"}); 
+$("#Message").animate({top: "95%"}); 
+$("#Ulysses").animate({top: "56%"}); 
+$("#Message").animate({top: "75%"}); 
+$("#Ulysses").animate({top: "71%"}); 
+$("#Message").animate({top: "90%"}); 
+$("#Ulysses").animate({top: "61%"}); 
+$("#Message").animate({top: "80%"}); 
+$("#Ulysses").animate({top: "66%"}); 
+$("#Message").animate({top: "85%"}); 
+ReciveMessage = true; 
+NextMessage(); 
+document.getElementById("PlayerNameOne").disabled = true; 
+document.getElementById("PlayerNameTwo").disabled = true; 
+document.getElementById("PlayerNameThree").disabled = true; 
+setTimeout(function(){$("#MC").fadeIn(1000)}, 500); 
+APS = false; 
+setInterval(SubmissionCheck, 400);
+document.getElementById("StartButton").disabled = true; 
+
+}
+var SubmittedOne = false; 
+function PlayerOneSubmission() {
+if (VaildSubOne) {
+SubmittedOne = true; 
+$("#PlayerOneSubmit").fadeOut(1000); 
+document.getElementById("PlayerNameOne").disabled = true; 
+}
+
+}
+var SubmittedTwo = false; 
+function PlayerTwoSubmission() {
+if (VaildSubTwo) {
+SubmittedTwo = true; 
+$("#PlayerTwoSubmit").fadeOut(1000); 
+document.getElementById("PlayerNameTwo").disabled = true; 
+}
+
+}
+var SubmittedThree = false; 
+function PlayerThreeSubmission() {
+if (VaildSubThree) {
+SubmittedThree = true; 
+$("#PlayerThreeSubmit").fadeOut(1000); 
+document.getElementById("PlayerNameThree").disabled = true; 
+}
+
+}
+function SubmissionCheck() { 
+	if (SubmittedOne == true && SubmittedTwo == true && SubmittedThree == true) {
+		document.getElementById("StartButton").disabled = false; 
+		document.getElementById("StartButton").style.cursor = "pointer"; 
+		$("#StartButton").animate({opacity: "1"});
+	} 
+	else {
+		document.getElementById("StartButton").disabled = true; 
+		document.getElementById("StartButton").style.cursor = "not-allowed"; 
+		$("#StartButton").animate({opacity: "0.1"});
+	}
+}
+function StartGame() {
+	$("#Info").fadeOut(1000);
+    $("#PlayerOneSelection").fadeOut(1000); 
+    $("#PlayerTwoSelection").fadeOut(1000); 
+    $("#PlayerThreeSelection").fadeOut(1000); 
+	$("#StartButton").fadeOut(1); 
+	$("#GameName").animate({top: "150%"}); 
+	$("#GameName").fadeOut(1); 
+	$("#LoadingScreen").animate({top: "150%"}); 
+	$("#LoadingScreen").fadeOut(1); 
+	setTimeout(InitializeThreeJs, 3000); 
+}
+function InitializeThreeJs() { 
+scene = new THREE.Scene(); 
+ camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 45, 30000); 
+  camera.position.set(0,-1000, 20000); //scene.background = new THREE.TextureLoader().load("SpotLight.png"); 
+   renderer = new THREE.WebGLRenderer({ antialias: true }); 
+    renderer.setSize(window.innerWidth, window.innerHeight); 
+	 document.body.appendChild(renderer.domElement); 
+      renderer.domElement.id = "canvas";
+	    Animate(); 
+}
+function AddDice() {
+	AnimateDice = true; 
+dicematerial = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet1.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide}) 
+]; 
+material = new THREE.MeshFaceMaterial(dicematerial);  
+dicegeometry = new THREE.BoxGeometry(4000, 4000, 4000); 
+diceone = new THREE.Mesh(dicegeometry, material); 
+scene.add(diceone); 
+
+
+dicematerial2 = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet1.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide}) 
+]; 
+material2 = new THREE.MeshFaceMaterial(dicematerial2);  
+dicegeometry2 = new THREE.BoxGeometry(4000, 4000, 4000); 
+dicetwo = new THREE.Mesh(dicegeometry2, material2); 
+scene.add(dicetwo); 
+diceone.position.set(-4000,6000, 0);
+dicetwo.position.set(4000,6000, 0);
+}
+	
+function Animate() {
+renderer.render(scene, camera); 
+   requestAnimationFrame(Animate); 
+if (AnimateDice) {
+   diceone.rotation.x += 0.2; 
+   diceone.rotation.y += 0.2; 
+   dicetwo.rotation.x += 0.2; 
+    dicetwo.rotation.y += 0.2;  }
+}
+
+var ReciveMessage = false; 
+function KeyDown() {
+if (AnimateDice) {
+diceone.position.set(-4000, AnimateUp, 0); 
+dicetwo.position.set(4000, AnimateUp, 0); 
+AnimateUp = AnimateUp + 300; 
+		if (AnimateUp > 15000) {
+			AnimateUp = AnimateUp - 9300; 
+			AnimateDice = false; 
+			DiceRoll(); 
+			} 
+	else {
+		requestAnimationFrame(KeyDown);
+	}				
+	
+} 
+	}
+
+
+
+var DiceAmount = undefined; 
+function DiceRoll() {
+$("#ChunkOne").fadeOut(1000); 
+DiceAmount = Math.floor(Math.random() * 11) + 2; 
+if (DiceAmount === 2) {
+DiceMaterial = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet1.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+RolledDiceMaterial = new THREE.MeshFaceMaterial(DiceMaterial);  
+DiceGeometry = new THREE.BoxGeometry(4000, 4000, 4000); 
+RolledDice = new THREE.Mesh(DiceGeometry, RolledDiceMaterial); 
+scene.add(RolledDice); 
+RolledDice.position.set(-4000,6000, 0);
+
+RolledDiceTwo = new THREE.Mesh(DiceGeometry, RolledDiceMaterial); 
+scene.add(RolledDiceTwo); 
+RolledDiceTwo.position.set(4000,6000, 0);
+localStorage.setItem("MoveAmount", DiceAmount); 
+MoveCharacter(); 
+
+}
+if (DiceAmount === 3) {
+	DiceMaterial = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+DiceMaterial2 = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet1.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+RolledDiceMaterial = new THREE.MeshFaceMaterial(DiceMaterial);  
+DiceGeometry = new THREE.BoxGeometry(4000, 4000, 4000); 
+RolledDice = new THREE.Mesh(DiceGeometry, RolledDiceMaterial); 
+scene.add(RolledDice); 
+RolledDice.position.set(-4000,6000, 0);
+
+RolledDiceMaterial2 = new THREE.MeshFaceMaterial(DiceMaterial2);  
+RolledDiceTwo = new THREE.Mesh(DiceGeometry, RolledDiceMaterial2); 
+scene.add(RolledDiceTwo); 
+RolledDiceTwo.position.set(4000,6000, 0);	
+localStorage.setItem("MoveAmount", DiceAmount); 
+MoveCharacter();
+}
+if (DiceAmount === 4) {
+	DiceMaterial = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+DiceMaterial2 = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+RolledDiceMaterial = new THREE.MeshFaceMaterial(DiceMaterial);  
+DiceGeometry = new THREE.BoxGeometry(4000, 4000, 4000); 
+RolledDice = new THREE.Mesh(DiceGeometry, RolledDiceMaterial); 
+scene.add(RolledDice); 
+RolledDice.position.set(-4000,6000, 0);
+
+RolledDiceMaterial2 = new THREE.MeshFaceMaterial(DiceMaterial2);  
+RolledDiceTwo = new THREE.Mesh(DiceGeometry, RolledDiceMaterial2); 
+scene.add(RolledDiceTwo); 
+RolledDiceTwo.position.set(4000,6000, 0);	
+MoveCharacter();
+localStorage.setItem("MoveAmount", DiceAmount); 
+}
+if (DiceAmount === 5) {
+	DiceMaterial = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+DiceMaterial2 = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+RolledDiceMaterial = new THREE.MeshFaceMaterial(DiceMaterial);  
+DiceGeometry = new THREE.BoxGeometry(4000, 4000, 4000); 
+RolledDice = new THREE.Mesh(DiceGeometry, RolledDiceMaterial); 
+scene.add(RolledDice); 
+RolledDice.position.set(-4000,6000, 0);
+
+RolledDiceMaterial2 = new THREE.MeshFaceMaterial(DiceMaterial2);  
+RolledDiceTwo = new THREE.Mesh(DiceGeometry, RolledDiceMaterial2); 
+scene.add(RolledDiceTwo); 
+RolledDiceTwo.position.set(4000,6000, 0);
+localStorage.setItem("MoveAmount", DiceAmount); 
+MoveCharacter();
+}
+if (DiceAmount === 6) {
+	DiceMaterial = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+DiceMaterial2 = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+RolledDiceMaterial = new THREE.MeshFaceMaterial(DiceMaterial);  
+DiceGeometry = new THREE.BoxGeometry(4000, 4000, 4000); 
+RolledDice = new THREE.Mesh(DiceGeometry, RolledDiceMaterial); 
+scene.add(RolledDice); 
+RolledDice.position.set(-4000,6000, 0);
+
+RolledDiceMaterial2 = new THREE.MeshFaceMaterial(DiceMaterial2);  
+RolledDiceTwo = new THREE.Mesh(DiceGeometry, RolledDiceMaterial2); 
+scene.add(RolledDiceTwo); 
+RolledDiceTwo.position.set(4000,6000, 0);
+localStorage.setItem("MoveAmount", DiceAmount); 
+MoveCharacter();
+}
+if (DiceAmount === 7) {
+	DiceMaterial = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+DiceMaterial2 = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+RolledDiceMaterial = new THREE.MeshFaceMaterial(DiceMaterial);  
+DiceGeometry = new THREE.BoxGeometry(4000, 4000, 4000); 
+RolledDice = new THREE.Mesh(DiceGeometry, RolledDiceMaterial); 
+scene.add(RolledDice); 
+RolledDice.position.set(-4000,6000, 0);
+
+RolledDiceMaterial2 = new THREE.MeshFaceMaterial(DiceMaterial2);  
+RolledDiceTwo = new THREE.Mesh(DiceGeometry, RolledDiceMaterial2); 
+scene.add(RolledDiceTwo); 
+RolledDiceTwo.position.set(4000,6000, 0);
+localStorage.setItem("MoveAmount", DiceAmount); 
+MoveCharacter();
+}
+if (DiceAmount === 8) {
+	DiceMaterial = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+DiceMaterial2 = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+RolledDiceMaterial = new THREE.MeshFaceMaterial(DiceMaterial);  
+DiceGeometry = new THREE.BoxGeometry(4000, 4000, 4000); 
+RolledDice = new THREE.Mesh(DiceGeometry, RolledDiceMaterial); 
+scene.add(RolledDice); 
+RolledDice.position.set(-4000,6000, 0);
+
+RolledDiceMaterial2 = new THREE.MeshFaceMaterial(DiceMaterial2);  
+RolledDiceTwo = new THREE.Mesh(DiceGeometry, RolledDiceMaterial2); 
+scene.add(RolledDiceTwo); 
+RolledDiceTwo.position.set(4000,6000, 0);
+localStorage.setItem("MoveAmount", DiceAmount); 
+MoveCharacter();
+}
+if (DiceAmount === 9) {
+	DiceMaterial = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+DiceMaterial2 = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+RolledDiceMaterial = new THREE.MeshFaceMaterial(DiceMaterial);  
+DiceGeometry = new THREE.BoxGeometry(4000, 4000, 4000); 
+RolledDice = new THREE.Mesh(DiceGeometry, RolledDiceMaterial); 
+scene.add(RolledDice); 
+RolledDice.position.set(-4000,6000, 0);
+
+RolledDiceMaterial2 = new THREE.MeshFaceMaterial(DiceMaterial2);  
+RolledDiceTwo = new THREE.Mesh(DiceGeometry, RolledDiceMaterial2); 
+scene.add(RolledDiceTwo); 
+RolledDiceTwo.position.set(4000,6000, 0);
+localStorage.setItem("MoveAmount", DiceAmount); 
+MoveCharacter();
+}
+if (DiceAmount === 9) {
+	DiceMaterial = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+DiceMaterial2 = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+RolledDiceMaterial = new THREE.MeshFaceMaterial(DiceMaterial);  
+DiceGeometry = new THREE.BoxGeometry(4000, 4000, 4000); 
+RolledDice = new THREE.Mesh(DiceGeometry, RolledDiceMaterial); 
+scene.add(RolledDice); 
+RolledDice.position.set(-4000,6000, 0);
+
+RolledDiceMaterial2 = new THREE.MeshFaceMaterial(DiceMaterial2);  
+RolledDiceTwo = new THREE.Mesh(DiceGeometry, RolledDiceMaterial2); 
+scene.add(RolledDiceTwo); 
+RolledDiceTwo.position.set(4000,6000, 0);
+localStorage.setItem("MoveAmount", DiceAmount); 
+MoveCharacter();
+}
+if (DiceAmount === 10) {
+	DiceMaterial = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+DiceMaterial2 = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+RolledDiceMaterial = new THREE.MeshFaceMaterial(DiceMaterial);  
+DiceGeometry = new THREE.BoxGeometry(4000, 4000, 4000); 
+RolledDice = new THREE.Mesh(DiceGeometry, RolledDiceMaterial); 
+scene.add(RolledDice); 
+RolledDice.position.set(-4000,6000, 0);
+
+RolledDiceMaterial2 = new THREE.MeshFaceMaterial(DiceMaterial2);  
+RolledDiceTwo = new THREE.Mesh(DiceGeometry, RolledDiceMaterial2); 
+scene.add(RolledDiceTwo); 
+RolledDiceTwo.position.set(4000,6000, 0);
+localStorage.setItem("MoveAmount", DiceAmount); 
+MoveCharacter();
+}
+if (DiceAmount === 11) {
+	DiceMaterial = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+DiceMaterial2 = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+RolledDiceMaterial = new THREE.MeshFaceMaterial(DiceMaterial);  
+DiceGeometry = new THREE.BoxGeometry(4000, 4000, 4000); 
+RolledDice = new THREE.Mesh(DiceGeometry, RolledDiceMaterial); 
+scene.add(RolledDice); 
+RolledDice.position.set(-4000,6000, 0);
+
+RolledDiceMaterial2 = new THREE.MeshFaceMaterial(DiceMaterial2);  
+RolledDiceTwo = new THREE.Mesh(DiceGeometry, RolledDiceMaterial2); 
+scene.add(RolledDiceTwo); 
+RolledDiceTwo.position.set(4000,6000, 0);
+localStorage.setItem("MoveAmount", DiceAmount); 
+MoveCharacter();
+}
+if (DiceAmount === 12) {
+	DiceMaterial = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+DiceMaterial2 = [ 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet3.png"), side: THREE.DoubleSide}),  
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet2.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet5.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet4.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide}), 
+new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load("DieNet6.png"), side: THREE.DoubleSide})
+]; 
+RolledDiceMaterial = new THREE.MeshFaceMaterial(DiceMaterial);  
+DiceGeometry = new THREE.BoxGeometry(4000, 4000, 4000); 
+RolledDice = new THREE.Mesh(DiceGeometry, RolledDiceMaterial); 
+scene.add(RolledDice); 
+RolledDice.position.set(-4000,6000, 0);
+
+RolledDiceMaterial2 = new THREE.MeshFaceMaterial(DiceMaterial2);  
+RolledDiceTwo = new THREE.Mesh(DiceGeometry, RolledDiceMaterial2); 
+scene.add(RolledDiceTwo); 
+RolledDiceTwo.position.set(4000,6000, 0);
+localStorage.setItem("MoveAmount", DiceAmount); 
+MoveCharacter(); 
+}
+}
+
+AnimateDice = false; 
+AnimateUp = 6000; 
+var CurrentMessage = 1; 
+
+function NextMessage() {
+if (ReciveMessage) {
+if (CurrentMessage === 4) {
+ReciveMessage = false; 
+
+}
+if (CurrentMessage === 3) {
+	ReciveMessage = false; 
+	$("#MC").fadeOut(300); 
+	setTimeout(function(){
+	document.getElementById("MC").style.fontSize = "40px"; 
+	document.getElementById("MC").innerHTML = "Tell me your names...";
+	document.getElementById("MC").style.top = "-40%"
+    }, 500);
+	setTimeout(function(){
+    $("#MC").fadeIn(1000);	
+	}, 700);
+	setTimeout(function() {
+	$("#Ulysses").animate({top: "163%"}); 
+	$("#Message").animate({top: "185%"}); 
+	$("#PlayerOneSelection").animate({opacity: "1"}); 
+	$("#PlayerTwoSelection").animate({opacity: "1"}); 
+	$("#PlayerThreeSelection").animate({opacity: "1"}); 
+	document.getElementById("StartButton").style.display = "block";
+	$("#StartButton").animate({top: "75%"}); 
+	$("#StartButton").animate({top: "95%"}); 
+	$("#StartButton").animate({top: "80%"}); 
+	$("#StartButton").animate({top: "90%"}); 
+	$("#StartButton").animate({top: "85%"}); 
+	document.getElementById("PlayerNameOne").disabled = false; 
+	document.getElementById("PlayerNameTwo").disabled = false; 
+	document.getElementById("PlayerNameThree").disabled = false; 
+	CurrentMessage = CurrentMessage + 1; 
+	}, 2500); 
+
+	} 
+if (CurrentMessage === 2) {
+	ReciveMessage = false;
+	$("#MC").fadeOut(300); 
+	setTimeout(function(){
+    document.getElementById("MC").style.top = "-33%"
+	document.getElementById("MC").style.fontSize = "26px"; 
+	document.getElementById("MC").innerHTML = "First we need to collect some personal information for... Crypto Mining!!!! I mean nothing..."; 
+	}, 500);
+	setTimeout(function(){
+    $("#MC").fadeIn(1000);
+	ReciveMessage = true;
+	CurrentMessage = CurrentMessage + 1; 
+	}, 700);
+	setTimeout(NextMessage, 4500); 
+	
+
+	}
+	if (CurrentMessage === 1) {
+	CurrentMessage = CurrentMessage + 1; 
+	setTimeout(NextMessage, 2000); 
+}
+	}
+}
+var Stop = true; 
+function AnimateStart() {
+	if (Stop) {
+	Stop = false;
+	var StorePlayerOneName = document.getElementById("PlayerNameOne").value; 
+	var StorePlayerTwoName = document.getElementById("PlayerNameTwo").value; 
+	var StorePlayerThreeName = document.getElementById("PlayerNameThree").value; 
+	localStorage.setItem("PlayerOneName", StorePlayerOneName);
+	localStorage.setItem("PlayerTwoName", StorePlayerTwoName);
+	localStorage.setItem("PlayerThreeName", StorePlayerThreeName); 
+	document.getElementById("StartButton").disabled = true;  
+	$("#SolidBlack2").fadeIn(3000); 
+	$("#SolidBlack2").fadeOut(6000); 
+	setTimeout(function(){
+	document.getElementById("StartButton").style.display = "none"; 
+	document.getElementById("PlayerOneSelection").style.display = "none"; 
+	document.getElementById("PlayerTwoSelection").style.display = "none"; 
+	document.getElementById("PlayerThreeSelection").style.display = "none"; 
+	document.getElementById("Info").style.display = "none"; 
+	}, 3000); 
+	setTimeout(AddChunk, 3000); }
+}
+	
+var GetPlayerOneName = undefined; 
+var GetPlayerTwoName = undefined; 
+var GetPlayerThreeName = undefined; 
+function AddChunk() {
+	localStorage.setItem("AlreadyPlaying", "true");  
+	document.getElementById("ChunkOne").style.display = "block"; 
+	document.getElementById("PlayerOne").style.display = "block"; 
+	document.getElementById("PlayerTwo").style.display = "block"; 
+	document.getElementById("PlayerThree").style.display = "block";  
+	setTimeout(function(){
+	$("#MC").fadeIn(1000); 
+	document.getElementById("MC").style.top = "-25%"
+	document.getElementById("MC").style.fontSize = "30px"; 
+	document.getElementById("MC").innerHTML = "Ohh Unfortunate " + GetPlayerOneName + " Goes First..."; 
+	$("#Ulysses").animate({top: "1176%"}); 
+	$("#Message").animate({top: "1195%"}); 
+	$("#Ulysses").animate({top: "1156%"}); 
+	$("#Message").animate({top: "1175%"}); 
+	$("#Ulysses").animate({top: "1171%"}); 
+	$("#Message").animate({top: "1190%"}); 
+	$("#Ulysses").animate({top: "1161%"}); 
+	$("#Message").animate({top: "1180%"}); 
+	$("#Ulysses").animate({top: "1166%"}); 
+	$("#Message").animate({top: "1185%"}); 
+	}, 2000); 
+	setTimeout(function(){
+	$("#Ulysses").fadeOut(1000); 
+	$("#Message").fadeOut(1000); 
+	}, 6000);
+	window.scrollBy(0,5000);  
+	setTimeout(NewPlayerTurn, 8000); 
+
+}
+GetPlayerOneName = localStorage.getItem("PlayerOneName");
+GetPlayerTwoName = localStorage.getItem("PlayerTwoName");
+GetPlayerThreeName = localStorage.getItem("PlayerThreeName");
+var PlayerOneTurn = undefined; 
+var PlayerTurn = 0; 
+function NewPlayerTurn() {
+GetPlayerOneName = localStorage.getItem("PlayerOneName");
+GetPlayerTwoName = localStorage.getItem("PlayerTwoName");
+GetPlayerThreeName = localStorage.getItem("PlayerThreeName");
+if (PlayerTurn === 2) {
+	window.scrollBy(0,20000);  
+	document.getElementById("PlayerTurnBanner").innerHTML = GetPlayerThreeName + "'s Turn";
+$("#PlayerTurnBanner").fadeIn(1000); 
+$("#PlayerThree").animate({top: "1150%", left: "45%"}, 3000);  
+$("#PlayerOne").fadeOut(1000); 
+$("#PlayerTwo").fadeOut(1000); 
+setTimeout(function(){
+	InitializeThreeJs(); 
+	AddDice();  
+}, 2000);
+setTimeout(function(){
+	$("#ChunkOne").fadeOut(1000);
+	$("#ChunkTwo").fadeOut(1000); 
+	$("#PlayerTurnBanner").fadeOut(1000); 
+}, 7000);  }
+if (PlayerTurn === 1) {
+	window.scrollBy(0,20000);  
+	document.getElementById("PlayerTurnBanner").innerHTML = GetPlayerTwoName + "'s Turn";
+$("#PlayerTurnBanner").fadeIn(1000); 
+$("#PlayerTwo").animate({top: "1150%", left: "45%"}, 3000);  
+$("#PlayerOne").fadeOut(1000); 
+$("#PlayerThree").fadeOut(1000); 
+setTimeout(function(){
+	InitializeThreeJs(); 
+	AddDice();  
+}, 2000);
+setTimeout(function(){
+	$("#ChunkOne").fadeOut(1000);
+	$("#ChunkTwo").fadeOut(1000); 
+	$("#PlayerTurnBanner").fadeOut(1000); 
+}, 7000);  }
+if (PlayerTurn === 0) {
+	window.scrollBy(0,20000);  
+
+document.getElementById("PlayerTurnBanner").innerHTML = GetPlayerOneName + "'s Turn";
+$("#PlayerTurnBanner").fadeIn(1000); 
+$("#PlayerOne").animate({top: "1150%", left: "45%"}, 3000);  
+$("#PlayerTwo").fadeOut(1000); 
+$("#PlayerThree").fadeOut(1000); 
+setTimeout(function(){
+	InitializeThreeJs(); 
+	AddDice();  
+}, 4000);
+setTimeout(function(){
+	$("#ChunkOne").fadeOut(1000);
+	$("#ChunkTwo").fadeOut(1000); 
+	$("#ChunkThree").fadeOut(1000); 
+	$("#ChunkFour").fadeOut(1000); 
+	$("#ChunkFive").fadeOut(1000); 
+	$("#ChunkSix").fadeOut(1000); 
+	$("#ChunkSeven").fadeOut(1000); 
+	$("#ChunkEight").fadeOut(1000); 
+	$("#ChunkNine").fadeOut(1000); 
+	$("#ChunkTen").fadeOut(1000); 
+	$("#ChunkEleven").fadeOut(1000); 
+	$("#ChunkTwelve").fadeOut(1000); 
+	$("#PlayerTurnBanner").fadeOut(1000); 
+}, 7000);  
+
+
+}
+	
+}
+var Move = undefined; 
+var PlayerOnePosition = 0; 
+var PlayerTwoPosition = 0;
+var PlayerThreePosition = 0;
+function MoveCharacter() {
+setTimeout(function(){
+$("#ChunkOne").fadeIn(1000); 
+$("#ChunkTwo").fadeIn(1000); 
+$("#ChunkThree").fadeIn(1000); 
+$("#ChunkFour").fadeIn(1000); 
+$("#ChunkFive").fadeIn(1000); 
+$("#ChunkSix").fadeIn(1000); 
+$("#ChunkSeven").fadeIn(1000); 
+$("#ChunkEight").fadeIn(1000); 
+$("#ChunkNine").fadeIn(1000); 
+$("#ChunkTen").fadeIn(1000); 
+$("#ChunkEleven").fadeIn(1000); 
+$("#ChunkTwelve").fadeIn(1000); 
+}, 3000); 
+
+
+Move = DiceAmount; 
+if (PlayerTurn === 2) { 
+PlayerThreePosition = PlayerThreePosition + Move;
+setTimeout(function(){
+document.getElementById("PlayerThree").style.transform = "rotate(0deg)";
+$("#PlayerTwo").fadeIn(1000); 
+$("#PlayerOne").fadeIn(1000); 
+if (PlayerThreePosition === 0 || PlayerThreePosition === 1 || PlayerThreePosition === 2 || PlayerThreePosition === 3 || PlayerThreePosition === 4 || PlayerThreePosition === 5) {
+	window.scrollBy(0,20000);  
+}
+if (PlayerThreePosition === 6 || PlayerThreePosition === 7 || PlayerThreePosition === 8 || PlayerThreePosition === 9 || PlayerThreePosition === 10 || PlayerThreePosition === 11 || PlayerThreePosition === 12 || PlayerThreePosition === 13) {
+	window.scrollBy(0,20000);  
+	setTimeout(function(){window.scrollBy(0,-700);}, 1000); 
+}
+
+}, 3000);
+
+setTimeout(function(){
+	if (PlayerThreePosition === 1) {
+		$("#PlayerThree").animate({top: "1173%", left: "42%"}, 1000); 
+	}
+	if (PlayerThreePosition === 2) {
+		$("#PlayerThree").animate({left: "55%", top: "1147%"}, 1000);
+	} 
+	if (PlayerThreePosition === 3) {
+		$("#PlayerThree").animate({top: "1126%", left: "34%"}, 1000); 
+	}
+	if (PlayerThreePosition === 4) {
+		$("#PlayerThree").animate({top: "1117%", left: "45%"}, 1000); 
+	} 
+	if (PlayerThreePosition === 5) {
+		$("#PlayerThree").animate({top: "1090%", left: "43%"}, 1000); 
+	}     
+	if (PlayerThreePosition === 6) {
+		$("#PlayerThree").animate({top: "1080%", left: "36%"}, 1000); 
+	}    
+	if (PlayerThreePosition === 7) {
+		$("#PlayerThree").animate({top: "1071%", left: "42%"}, 1000); 
+	} 
+	if (PlayerThreePosition === 8) {
+		$("#PlayerThree").animate({top: "1056%", left: "43%"}, 1000); 
+	} 
+	if (PlayerThreePosition === 9) {
+		$("#PlayerThree").animate({top: "1046%", left: "42%"}, 1000); 
+	} 
+	if (PlayerThreePosition === 10) {
+		$("#PlayerThree").animate({top: "1022%", left: "49%"}, 1000);	
+	}  
+	if (PlayerThreePosition === 11) {
+		$("#PlayerThree").animate({top: "1015%", left: "41%"}, 1000);
+	} 
+	if (PlayerThreePosition === 12) {
+		$("#PlayerThree").animate({top: "998%", left: "44%"}, 1000);
+	} 
+	if (PlayerThreePosition === 13) {
+		$("#PlayerThree").animate({top: "990%", left: "58%"}, 1000);
+		$("#ChunkTwo").fadeIn(1000); 
+	}
+	if (PlayerThreePosition === "14") {
+		$("#PlayerThree").animate({top: "975%", left: "49%"}, 1000);
+		$("#ChunkThree").fadeIn(1000); 
+	}
+	if (PlayerThreePosition === "15") {
+		$("#PlayerThree").animate({left: "43%", top: "0%"}, 1000); 
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	}
+	if (PlayerThreePosition === "16") {
+		$("#PlayerThree").animate({left: "43%", top: "0%"}, 1000); 
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	}
+	if (PlayerThreePosition === "17") {
+		$("#PlayerThree").animate({left: "43%", top: "0%"}, 1000); 
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	}
+	if (PlayerThreePosition === "18") {
+		$("#PlayerThree").animate({left: "43%", top: "0%"}, 1000); 
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	}
+	if (PlayerThreePosition === "19") {
+		$("#PlayerThree").animate({left: "43%", top: "0%"}, 1000); 
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	}
+	if (PlayerThreePosition === "20") {
+		$("#PlayerThree").animate({left: "43%", top: "0%"}, 1000); 
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	}
+	if (PlayerThreePosition === "21") {
+		$("#PlayerThree").animate({left: "43%", top: "0%"}, 1000); 
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	}
+	if (PlayerThreePosition === "22") {
+		$("#PlayerThree").animate({left: "43%", top: "0%"}, 1000); 
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	}
+	if (PlayerThreePosition === "23") {
+		$("#PlayerThree").animate({left: "43%", top: "0%"}, 1000); 
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	}
+	if (PlayerThreePosition === "24") {
+		$("#PlayerThree").animate({left: "43%", top: "0%"}, 1000); 
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	}
+
+	PlayerTurn = PlayerTurn - 2;
+	setTimeout(NewPlayerTurn, 2000); 
+
+
+},6000); }
+if (PlayerTurn === 1) {
+PlayerTwoPosition = PlayerTwoPosition + Move; 
+setTimeout(function(){
+document.getElementById("PlayerTwo").style.transform = "rotate(0deg)";
+$("#ChunkOne").fadeIn(1000); 
+$("#PlayerOne").fadeIn(1000); 
+$("#PlayerThree").fadeIn(1000); 
+if (PlayerTwoPosition === 0 || PlayerTwoPosition === 1 || PlayerTwoPosition === 2 || PlayerTwoPosition === 3 || PlayerTwoPosition === 4 || PlayerTwoPosition === 5) {
+	window.scrollBy(0,20000);  
+} 
+if (PlayerTwoPosition === 6 || PlayerTwoPosition === 7 || PlayerTwoPosition === 8 || PlayerTwoPosition === 9 || PlayerTwoPosition === 10 || PlayerTwoPosition === 11 || PlayerTwoPosition === 12 || PlayerTwoPosition === 13) {
+	window.scrollBy(0,20000);  
+	setTimeout(function(){window.scrollBy(0,-700);}, 1000); 
+} 
+}, 3000)
+
+setTimeout(function(){
+	if (PlayerTwoPosition === 1) {
+		$("#PlayerTwo").animate({top: "1173%", left: "42%"}, 1000); 
+	}
+	if (PlayerTwoPosition === 2) {
+		$("#PlayerTwo").animate({left: "55%", top: "1147%"}, 1000);
+	} 
+	if (PlayerTwoPosition === 3) {
+		$("#PlayerTwo").animate({top: "1126%", left: "34%"}, 1000); 
+	} 
+	if (PlayerTwoPosition === 4) {
+		$("#PlayerTwo").animate({top: "1107%", left: "45%"}, 1000); 
+	} 
+	if (PlayerTwoPosition === 5) {
+		$("#PlayerTwo").animate({top: "1090%", left: "43%"}, 1000); 
+	}     
+	if (PlayerTwoPosition === 6) { 
+		$("#PlayerTwo").animate({top: "1080%", left: "36%"}, 1000); 
+	}    
+	if (PlayerTwoPosition === 7) {
+		$("#PlayerTwo").animate({top: "1071%", left: "42%"}, 1000); 
+	} 
+	if (PlayerTwoPosition === 8) {
+		$("#PlayerTwo").animate({top: "1056%", left: "43%"}, 1000); 
+	} 
+	if (PlayerTwoPosition === 9) {
+		$("#PlayerTwo").animate({top: "1046%", left: "42%"}, 1000); 
+	} 
+	if (PlayerTwoPosition === 10) {
+		$("#PlayerTwo").animate({top: "1022%", left: "49%"}, 1000);	
+	}  
+	if (PlayerTwoPosition === 11) {
+		$("#PlayerTwo").animate({top: "1015%", left: "41%"}, 1000);
+	} 
+	if (PlayerTwoPosition === 12) {
+		$("#PlayerTwo").animate({top: "998", left: "44%"}, 1000);
+	} 
+	if (PlayerTwoPosition === 13) {
+		$("#PlayerTwo").animate({top: "990%", left: "58%"}, 1000);
+	} 
+	if (PlayerTwoPosition === "14") {
+		$("#PlayerTwo").animate({top: "78%", left: "48%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	} 
+	if (PlayerTwoPosition === "15") {
+		$("#PlayerTwo").animate({top: "-2%", left: "44%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	} 
+	if (PlayerTwoPosition === "16") {
+		$("#PlayerTwo").animate({top: "-2%", left: "44%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	} 
+	if (PlayerTwoPosition === "17") {
+		$("#PlayerTwo").animate({top: "-2%", left: "44%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	} 
+	if (PlayerTwoPosition === "18") {
+		$("#PlayerTwo").animate({top: "-2%", left: "44%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	} 
+	if (PlayerTwoPosition === "19") {
+		$("#PlayerTwo").animate({top: "-2%", left: "44%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	} 
+	if (PlayerTwoPosition === "20") {
+		$("#PlayerTwo").animate({top: "-2%", left: "44%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	} 
+	if (PlayerTwoPosition === "21") {
+		$("#PlayerTwo").animate({top: "-2%", left: "44%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	} 
+	if (PlayerTwoPosition === "22") {
+		$("#PlayerTwo").animate({top: "-2%", left: "44%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	} 
+	if (PlayerTwoPosition === "23") {
+		$("#PlayerTwo").animate({top: "-2%", left: "44%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	}
+	if (PlayerTwoPosition === "24") {
+		$("#PlayerTwo").animate({top: "-2%", left: "44%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000); 
+	}
+	PlayerTurn = PlayerTurn + 1;
+	setTimeout(NewPlayerTurn, 2000); 
+
+
+},6000); }
+if (PlayerTurn === 0) {
+PlayerOnePosition = PlayerOnePosition + Move;
+setTimeout(function(){
+$("#ChunkOne").fadeIn(1000); 
+$("#PlayerTwo").fadeIn(1000); 
+$("#PlayerThree").fadeIn(1000); 
+if (PlayerOnePosition === 0 || PlayerOnePosition === 1 || PlayerOnePosition === 2 || PlayerOnePosition === 3 || PlayerOnePosition === 4 || PlayerOnePosition === 5) {
+	window.scrollBy(0,20000);  
+} 
+if (PlayerOnePosition === 6 || PlayerOnePosition === 7 || PlayerOnePosition === 8 || PlayerOnePosition === 9 || PlayerOnePosition === 10 || PlayerOnePosition === 11 || PlayerOnePosition === 12 || PlayerOnePosition === 13) {
+	window.scrollBy(0,20000);  
+	setTimeout(function(){window.scrollBy(0,-700);}, 1000); 
+} 
+}, 3000)
+
+setTimeout(function(){
+	if (PlayerOnePosition === 1) {
+		$("#PlayerOne").animate({top: "1173%", left: "42%"}, 1000); 
+	}
+	if (PlayerOnePosition === 2) {
+		$("#PlayerOne").animate({left: "55%", top: "1147%"}, 1000);
+	} 
+	if (PlayerOnePosition === 3) {
+		$("#PlayerOne").animate({top: "1126%", left: "34%"}, 1000); 
+	} 
+	if (PlayerOnePosition === 4) {
+		$("#PlayerOne").animate({top: "1107%", left: "45%"}, 1000); 
+	} 
+	if (PlayerOnePosition === 5) {
+		$("#PlayerOne").animate({top: "1090%", left: "43%"}, 1000); 
+	}     
+	if (PlayerOnePosition === 6) {
+		$("#PlayerOne").animate({top: "1080%", left: "36%"}, 1000); 
+	}    
+	if (PlayerOnePosition === 7) {
+		$("#PlayerOne").animate({top: "1071%", left: "42%"}, 1000); 
+	} 
+	if (PlayerOnePosition === 8) {
+		$("#PlayerOne").animate({top: "1056%", left: "43%"}, 1000); 
+	} 
+	if (PlayerOnePosition === 9) {
+		$("#PlayerOne").animate({top: "1046%", left: "42%"}, 1000); 
+	} 
+	if (PlayerOnePosition === 10) {
+		$("#PlayerOne").animate({top: "1022%", left: "49%"}, 1000);	
+	}  
+	if (PlayerOnePosition === 11) {
+		$("#PlayerOne").animate({top: "1015%", left: "41%"}, 1000);
+	} 
+	if (PlayerOnePosition === 12) {
+		$("#PlayerOne").animate({top: "998%", left: "44%"}, 1000);
+	} 
+	if (PlayerOnePosition === 13) {
+		$("#PlayerOne").animate({top: "990%", left: "58%"}, 1000);
+	} 
+	if (PlayerOnePosition === "14") {
+		$("#PlayerOne").animate({top: "-2%", left: "40%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000);
+	} 
+	if (PlayerOnePosition === "15") {
+		$("#PlayerOne").animate({top: "-2%", left: "40%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000);
+	} 
+	if (PlayerOnePosition === "16") {
+		$("#PlayerOne").animate({top: "-2%", left: "40%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000);
+	} 
+	if (PlayerOnePosition === "17") {
+		$("#PlayerOne").animate({top: "-2%", left: "40%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000);
+	} 
+	if (PlayerOnePosition === "18") {
+		$("#PlayerOne").animate({top: "-2%", left: "40%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000);
+	} 
+	if (PlayerOnePosition === "19") {
+		$("#PlayerOne").animate({top: "-2%", left: "40%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000);
+	} 
+	if (PlayerOnePosition === "20") {
+		$("#PlayerOne").animate({top: "-2%", left: "40%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000);
+	} 
+	if (PlayerOnePosition === "21") {
+		$("#PlayerOne").animate({top: "-2%", left: "40%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000);
+	} 
+	if (PlayerOnePosition === "22") {
+		$("#PlayerOne").animate({top: "-2%", left: "40%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000);
+	} 
+	if (PlayerOnePosition === "23") {
+		$("#PlayerOne").animate({top: "-2%", left: "40%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000);
+	} 
+	if (PlayerOnePosition === "24") {
+		$("#PlayerOne").animate({top: "-2%", left: "40%"}, 1000);
+		 
+		$("#ChunkTwo").fadeIn(1000);
+	} 
+	PlayerTurn = PlayerTurn + 1;
+	setTimeout(NewPlayerTurn, 15000); 
+
+
+},6000); } 
+
+}
+
+
+
+
+window.addEventListener('resize', function(){
+		var width = window.innerWidth;
+		var height = window.innerHeight;
+		renderer.setSize(width,height)
+	}); 
+
+</script>
+</body>
+</html>
+ 
