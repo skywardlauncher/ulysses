@@ -212,6 +212,7 @@ body {
 	top: 1100%; 
 	left: 0%;
 	z-index: 3;
+	display: none;
 }
 #ChunkTwo {
 	position: absolute; 
@@ -220,6 +221,7 @@ body {
 	top: 1000%; 
 	left: 0%;
 	z-index: 50; 
+	display: none;
 }
 #ChunkThree {
 	position: absolute; 
@@ -228,6 +230,7 @@ body {
 	top: 900%; 
 	left: 0%;
 	z-index: 4;
+	display: none;
 }
 #ChunkFour {
 	position: absolute; 
@@ -236,6 +239,7 @@ body {
 	top: 800%; 
 	left: 0%;
 	z-index: 4;
+	display: none;
 }
 #ChunkFive {
 	position: absolute; 
@@ -244,6 +248,7 @@ body {
 	top: 700%; 
 	left: 0%;
 	z-index: 4;
+	display: none;
 }
 #ChunkSix {
 	position: absolute; 
@@ -252,6 +257,7 @@ body {
 	top: 600%; 
 	left: 0%;
 	z-index: 4;
+	display: none;
 }
 #ChunkSeven {
 	position: absolute; 
@@ -260,6 +266,7 @@ body {
 	top: 500%; 
 	left: 0%;
 	z-index: 4;
+	display: none;
 }
 #ChunkEight {
 	position: absolute; 
@@ -268,6 +275,7 @@ body {
 	top: 400%; 
 	left: 0%;
 	z-index: 4;
+	display: none;
 }
 #ChunkNine {
 	position: absolute; 
@@ -276,6 +284,7 @@ body {
 	top: 300%; 
 	left: 0%;
 	z-index: 4;
+	display: none;
 }
 #ChunkTen {
 	position: absolute; 
@@ -284,6 +293,7 @@ body {
 	top: 200%; 
 	left: 0%;
 	z-index: 4;
+	display: none;
 }
 #ChunkEleven {
 	position: absolute; 
@@ -292,6 +302,7 @@ body {
 	top: 100%; 
 	left: 0%;
 	z-index: 4;
+	display: none;
 }
 #ChunkTwelve {
 	position: absolute; 
@@ -300,6 +311,7 @@ body {
 	top: 0%; 
 	left: 0%;
 	z-index: 4;
+	display: none;
 }
 #LoadingText {
 	position: fixed; 
