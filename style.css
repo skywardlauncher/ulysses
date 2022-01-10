@@ -350,24 +350,7 @@ body {
     font-size: 30px;
     font-weight: bold;
     font-variant-caps: all-petite-caps;
-	left: 10%; 
-	top: 40%; 
-	background-color: #2363FF;
-	width: calc(30%);
-	height: calc(8%); 
-	display: none;
-	cursor: pointer; 
-}
-#MinigamesButton {
-	position: absolute; 
-	z-index: 2; 
-	border: none; 
-	border-radius: 50px; 
-	color: whitesmoke;
-    font-size: 30px;
-    font-weight: bold;
-    font-variant-caps: all-petite-caps;
-	left: 10%; 
+	left: -10%; 
 	top: 50%; 
 	background-color: #2363FF;
 	width: calc(30%);
@@ -375,7 +358,7 @@ body {
 	display: none;
 	cursor: pointer; 
 }
-#RewardsButton {
+#RulesButton {
 	position: absolute; 
 	z-index: 2; 
 	border: none; 
@@ -384,30 +367,13 @@ body {
     font-size: 30px;
     font-weight: bold;
     font-variant-caps: all-petite-caps;
-	left: 10%; 
+	left: -10%; 
 	top: 60%; 
 	background-color: #2363FF;
 	width: calc(30%);
 	height: calc(8%); 
 	display: none;
-	cursor: pointer; 
-}
-#AchivementsButton {
-	position: absolute; 
-	z-index: 2; 
-	border: none; 
-	border-radius: 50px; 
-	color: whitesmoke;
-    font-size: 30px;
-    font-weight: bold;
-    font-variant-caps: all-petite-caps;
-	left: 10%; 
-	top: 70%; 
-	background-color: #2363FF;
-	width: calc(30%);
-	height: calc(8%); 
-	display: none;
-	cursor: pointer; 
+	opacity: 0.3;
 }
 #SettingsButton {
 	position: absolute; 
@@ -418,13 +384,13 @@ body {
     font-size: 30px;
     font-weight: bold;
     font-variant-caps: all-petite-caps;
-	left: 10%; 
-	top: 80%; 
+	left: -10%; 
+	top: 70%; 
 	background-color: #2363FF;
 	width: calc(30%);
 	height: calc(8%); 
-	display: none;
-	cursor: pointer; 
+	display: none; 
+	opacity: 0.3;
 }
 
 
@@ -460,10 +426,11 @@ body {
 	width: calc(20%); 
 	height: calc(40%);
 	left: 10%; 
-	top: 163%; 
+	top: 1263%; 
 	z-index: 500;
 	transform: scaleX(-1);
 	transform: rotate(-17deg);
+	display: none;
 
 	
 
@@ -472,11 +439,12 @@ body {
 	background: gray; 
 	border-radius: 20px; 
 	position: absolute;
-	top: 185%; 
+	top: 1285%; 
 	left: 25%;  
 	width: 50%; 
 	height: 10%; 
 	z-index: 20;
+	display: none;
 }
 #MC {
 	position: relative; 
@@ -563,4 +531,44 @@ body {
 	height: 100%;
 	z-index: 1000000;
 	display: none;
+}
+.swal-text {
+	text-align: center;
+}
+
+@Keyframes IAMFLOATING {
+	0% {top: 5%; left: 10%; transform: rotate(5deg); }
+	5% {top: 14%; left: 14%;  transform: rotate(17deg);}
+	10% {top: 3%; left: 1%;  transform: rotate(10deg);}
+	15% {top: 85%; left: 43%;  transform: rotate(3deg);}
+	20% {top: 58%; left: 12%;  transform: rotate(32deg);}
+	25% {top: 99%; left: 99%;  transform: rotate(45deg);}
+	30% {top: 13%; left: 43%;  transform: rotate(21deg);}
+	35% {top: 43%; left: 3%;  transform: rotate(10deg);}
+	40% {top: 99%; left: 0%;  transform: rotate(99deg);}
+	45% {top: 0%; left: 99%;  transform: rotate(32deg);}
+	50% {top: 34%; left: 74%;  transform: rotate(45deg);}
+	55% {top: 68%; left: 78%;  transform: rotate(12deg);}
+	60% {top: 23%; left: 54%;  transform: rotate(34deg);}
+	65% {top: 45%; left: 21%;  transform: rotate(89deg);}
+	70% {top: 12%; left: 85%;  transform: rotate(12deg); }
+	75% {top: 43%; left: 68%;  transform: rotate(86deg);}
+	80% {top: 34%; left: 87%;  transform: rotate(54deg);}
+	85% {top: 12%; left: 12%;  transform: rotate(21deg);}
+	90% {top: 45%; left: 89%;  transform: rotate(85deg);}
+	95% {top: 0%; left: 32%;  transform: rotate(50deg);}
+	99% {top: 100%; left: 100%;  transform: rotate(5deg); }
+	100% {top: 5%; left: 10%; transform: rotate(5deg); }
+}
+#RandomFloatingGuy {
+	z-index: 5;
+	position: fixed; 
+	width: calc(20%);
+	height: calc(40%); 
+	top: 10%; 
+	left: 40%; 
+	animation: IAMFLOATING;  
+	animation-iteration-count: infinite;
+	animation-duration: 180s; 
+	display: none; 
 }
